@@ -1,0 +1,11 @@
+dvc
+tensorflow
+matplotlib
+pandas
+numpy
+PyYAML
+tqdm
+boto3
+
+#local setup installation
+-e .

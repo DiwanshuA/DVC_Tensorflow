@@ -1,0 +1,7 @@
+.ideas
+.vscode
+env
+data
+logs
+#ignore the secrets file
+config/secrets.yaml
