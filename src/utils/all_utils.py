@@ -21,3 +21,9 @@ def save_reports(report: dict, report_path: str, indentation=4):
     with open(report_path, "w") as f:
         json.dump(report, f, indent=indentation)
     print(f"reports are saved at {report_path}")
+
+def get_timestamp(name):
+    timestamp = time.asctime().replace(" ", "_").replace(":", "")
+
+    uniquename = f"{name}_{timestamp}"
+    return uniquename
