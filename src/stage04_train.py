@@ -22,7 +22,7 @@ def train_model(config_path, params_path):
     artifacts_dir = artifacts["ARTIFACTS_DIR"]
     data_dir = artifacts["DATA_DIR"]
 
-    train_model_dir = os.path.join(artifacts_dir, "TRAINED_MODEL_DIR")
+    train_model_dir = os.path.join(artifacts_dir, artifacts["TRAINED_MODEL_DIR"])
 
     create_directory([train_model_dir])
 
