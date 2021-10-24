@@ -1,0 +1,75 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/stage01_loadandsave.py --config=config/config.yaml
+    deps:
+    - path: config/config.yaml
+      md5: 1e816fda334395b1e31f3466b1c424ad
+      size: 475
+    - path: src/stage01_loadandsave.py
+      md5: 133d28d11364537c70aa862c3d0f7ada
+      size: 1725
+    - path: src/utils/all_utils.py
+      md5: 11e423b2513888fa17e29eec3375436d
+      size: 811
+    outs:
+    - path: data/cat
+      md5: 05ecff263de7e1b30838c10ddabf6088.dir
+      size: 12520842
+      nfiles: 71
+    - path: data/dog
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+  prepare_model:
+    cmd: python src/stage02_prepare_base_model.py --config=config/config.yaml --params=params.yaml
+    deps:
+    - path: config/config.yaml
+      md5: 1e816fda334395b1e31f3466b1c424ad
+      size: 475
+    - path: data/cat
+      md5: 05ecff263de7e1b30838c10ddabf6088.dir
+      size: 12520842
+      nfiles: 71
+    - path: data/dog
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    - path: src/stage02_prepare_base_model.py
+      md5: f71d44de1cc56d4024052ef82d47f7ff
+      size: 2365
+    - path: src/utils/all_utils.py
+      md5: 11e423b2513888fa17e29eec3375436d
+      size: 811
+    params:
+      params.yaml:
+        CLASSES: 2
+        LEARNING_RATE: 0.001
+    outs:
+    - path: artifacts/base_model/VGG16_base_model.h5
+      md5: ffc597a1fa72ae02c198f93de064f632
+      size: 58920232
+  prepare_callbacks:
+    cmd: python src/stage03_prepare_callbacks.py --config=config/config.yaml
+    deps:
+    - path: artifacts/base_model/VGG16_base_model.h5
+      md5: ffc597a1fa72ae02c198f93de064f632
+      size: 58920232
+    - path: config/config.yaml
+      md5: 1e816fda334395b1e31f3466b1c424ad
+      size: 475
+    - path: src/stage03_prepare_callbacks.py
+      md5: cd11071ceb3bc87778a3f907cefe46ce
+      size: 1592
+    - path: src/utils/all_utils.py
+      md5: 11e423b2513888fa17e29eec3375436d
+      size: 811
+    outs:
+    - path: artifacts/callbacks
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    - path: artifacts/checkpoints
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0

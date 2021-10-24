@@ -1,0 +1,53 @@
+stages:
+  load_data:
+    cmd: python src/stage01_loadandsave.py --config=config/config.yaml
+    deps:
+      - src/stage01_loadandsave.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+    outs:
+      - data/cat
+      - data/dog
+
+  prepare_model:
+    cmd: python src/stage02_prepare_base_model.py --config=config/config.yaml --params=params.yaml
+    deps:
+      - src/stage02_prepare_base_model.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+      - data/cat
+      - data/dog
+    params:
+      - CLASSES
+      - LEARNING_RATE
+    outs:
+      - artifacts/base_model/VGG16_base_model.h5
+
+  prepare_callbacks:
+    cmd: python src/stage03_prepare_callbacks.py --config=config/config.yaml
+    deps:
+      - src/stage03_prepare_callbacks.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+      - artifacts/base_model/VGG16_base_model.h5
+    outs:
+      - artifacts/callbacks
+      - artifacts/checkpoints
+
+  train:
+    cmd: python src/stage04_train.py --config=config/config.yaml --params=params.yaml
+    deps:
+      - src/stage04_train.py
+      - src/utils/all_utils.py
+      - config/config.yaml
+      - params.yaml
+      - data/cat
+      - data/dog
+      - artifacts/callbacks
+      - artifacts/base_model/VGG16_base_model.h5
+    params:
+      - IMAGE_SIZE
+      - AUGMENTATION
+      - BATCH_SIZE
+    outs:
+      - artifacts/base_model/updated_VGG16_base_model.h5
