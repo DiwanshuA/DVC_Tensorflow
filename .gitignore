@@ -5,3 +5,4 @@ data
 logs
 #ignore the secrets file
 config/secrets.yaml
+requirements_v0.txt
